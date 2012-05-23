@@ -76,12 +76,14 @@ class JavaCodeParser extends JavaTokenParsers  {
   def ClassModifier: Parser[Any] = "public" | "abstract" | "final"
   def MySuper: Parser[Any] = "extends"~ClassType
   def ClassType: Parser[Any] = PackageName
-  def MyInterface: Parser[Any] = "implements"~InterfaceTypeList
+//  def MyInterface: Parser[Any] = "implements"~InterfaceTypeList
+  def MyInterface: Parser[Any] = "implements"~repsep(InterfaceTypeList, ",")
   def InterfaceTypeList: Parser[Any] = PackageName
   def ClassBody: Parser[Any] = "{"~rep(ClassBodyDeclaration)~"}"
   def ClassBodyDeclaration: Parser[Any] = ClassMemberDeclaration | StaticInitializer
   def StaticInitializer: Parser[Any] = "static"~MyBlock
-  def ClassMemberDeclaration: Parser[Any] = FieldDeclaration | MethodDeclaration
+  def ClassConstractor: Parser[Any] = rep(MethodModifier)~MethodDeclarator~MethodBody
+  def ClassMemberDeclaration: Parser[Any] = FieldDeclaration | MethodDeclaration | ClassConstractor
 
   /*
    * フィールド定義
@@ -110,10 +112,11 @@ class JavaCodeParser extends JavaTokenParsers  {
   def MethodDeclaration: Parser[Any] = MethodHeader~MethodBody
   def MethodHeader: Parser[Any] = rep(MethodModifier)~ResultType~MethodDeclarator
   def ResultType: Parser[Any] = MyType | "void"
-  def MethodModifier: Parser[Any] = "public" | "protected" | "private" | "abstract" | "final"
+  def MethodModifier: Parser[Any] = "public" | "protected" | "private" | "abstract" | "final" | "static"
                                     "synchronized" | "native"
   def MethodDeclarator: Parser[Any] = Identifier~"("~FormalParameterList~")"
-  def FormalParameterList: Parser[Any] = repsep(FormalParameter, ".")
+//  def FormalParameterList: Parser[Any] = repsep(FormalParameter, ".")
+  def FormalParameterList: Parser[Any] = repsep(FormalParameter, ",")
   def FormalParameter: Parser[Any] = MyType~VariableDeclaratorId
   def MethodBody: Parser[Any] = MyBlock | ";"
 

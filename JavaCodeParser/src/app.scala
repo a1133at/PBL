@@ -7,12 +7,12 @@
  */
 
 import parser.JavaCodeParser
-import scala.io.Source
+import java.io.FileReader
 
 object app extends JavaCodeParser{
   def main(args: Array[String]) {
-    val reader = Source.fromFile("class1.java")
-    val res = parseAll(Java, reader.getLines().mkString)
+    val reader = new FileReader("class1.java")
+    val res = parseAll(Java, reader)
     res
   }
 }
