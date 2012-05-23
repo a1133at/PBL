@@ -31,7 +31,7 @@ class JavaCodeParser extends JavaTokenParsers  {
 //  def Import: Parser[Any] = SingleTypeImport | TypeImportOnDemand
 //  def SingleTypeImport: Parser[Any] = "import"~TypeName
 //  def TypeImportOnDemand: Parser[Any] = "import"~PackageName~".*"
-  def Import: Parser[Any] = "import"~repsep(ImportIdentifier, ".")
+  def Import: Parser[Any] = "import"~repsep(ImportIdentifier, ".")~";"
   def ImportIdentifier: Parser[String] = """[a-zA-Z\*]\w*""".r
   /*
    * インターフェース定義
@@ -144,9 +144,9 @@ class JavaCodeParser extends JavaTokenParsers  {
   def FloatingPointType: Parser[String] = "float" | "double"
   def MyReferenceType: Parser[Any] = ClassOrInterfaceType | MyArrayType
   def ClassOrInterfaceType: Parser[Any] = MyClassType | MyInterfaceType
-  def MyClassType: Parser[Any] = TypeName
-  def MyInterfaceType: Parser[Any] = TypeName
-  def MyArrayType: Parser[Any] = MyType~"["~"]"
+  def MyClassType: Parser[Any] = TypeName~"["~"]"
+  def MyInterfaceType: Parser[Any] = TypeName~"["~"]"
+  def MyArrayType: Parser[Any] = TypeName~"["~"]"
   /*
    * メソッド本体、コメント部分
    * <MyBlock>::= { <BlockStatements> }
