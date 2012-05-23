@@ -1,17 +1,17 @@
-package class1;
+package class1.pack;
 import java.io
-     public class class1 {
+public class class1 extends class2 implements interface1,interface2 {
+    static{
+    }
+    public class1(){
+    }
 
-        private String Attribute1;
+    public static int field1;
+    private String field2;
+    final public double field3;
 
-        private String Attribute2;
-
-
-        public void method1 () {
-        }
-
-        public void method2 () {
-        }
-
-
+    public static void method1(int i, double d){
+    }
+    private int method2(){
+    }
 }
